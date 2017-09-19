@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@types/node": "^8.0.28",
+    "typescript": "~2.4"
+  }
+}
