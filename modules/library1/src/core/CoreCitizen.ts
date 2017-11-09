@@ -6,5 +6,10 @@ export namespace pepe.core
         {
             console.log('HI!');
         }
+
+        public static makeError()
+        {
+            throw new Error();
+        }
     }
 }

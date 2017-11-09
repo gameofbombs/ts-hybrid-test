@@ -3,6 +3,10 @@ import * as ts from "typescript";
 import * as glob from "glob";
 import * as fs from 'fs';
 
+const bundleName = process.argv.slice(3).toString();
+const bundleNameTs = bundleName.replace('.js', '.ts');
+const sourcesDir = process.argv.slice(2, -1).toString();
+
 interface MetadataDictionary
 {
     [id: string]: MetadataEntry;
@@ -162,7 +166,7 @@ function generateClassMetadata(fileNames: string[], options: ts.CompilerOptions)
 }
 
 
-const globInstance = new glob.GlobSync(process.argv.slice(2, -1).toString() + '/**/*.ts');
+const globInstance = new glob.GlobSync(sourcesDir + '/**/*.ts');
 
 const metadata = generateClassMetadata(globInstance.found, {
     target: ts.ScriptTarget.ESNext, module: ts.ModuleKind.CommonJS
@@ -221,8 +225,13 @@ const sources = concatSources(metadata);
 const transpiled = ts.transpileModule(sources, {
     compilerOptions: {
         module: ts.ModuleKind.CommonJS,
-        target: ts.ScriptTarget.ES5
-    }
+        target: ts.ScriptTarget.ES5,
+        sourceMap: true,
+        strict: true
+    },
+    fileName: bundleNameTs
 });
 
-fs.writeFileSync(process.argv.slice(3).toString(), transpiled.outputText);
+fs.writeFileSync(bundleNameTs, sources);
+fs.writeFileSync(bundleName, transpiled.outputText);
+fs.writeFileSync(bundleName + '.map', transpiled.sourceMapText);

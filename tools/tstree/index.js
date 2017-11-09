@@ -4,6 +4,9 @@ exports.__esModule = true;
 var ts = require("typescript");
 var glob = require("glob");
 var fs = require("fs");
+var bundleName = process.argv.slice(3).toString();
+var bundleNameTs = bundleName.replace('.js', '.ts');
+var sourcesDir = process.argv.slice(2, -1).toString();
 /** Generate documentation for all classes in a set of .ts files */
 function generateClassMetadata(fileNames, options) {
     // Build a program using the set of root file names in fileNames
@@ -113,7 +116,7 @@ function generateClassMetadata(fileNames, options) {
         return fqcn.join('.');
     }
 }
-var globInstance = new glob.GlobSync(process.argv.slice(2, -1).toString() + '/**/*.ts');
+var globInstance = new glob.GlobSync(sourcesDir + '/**/*.ts');
 var metadata = generateClassMetadata(globInstance.found, {
     target: ts.ScriptTarget.ESNext, module: ts.ModuleKind.CommonJS
 });
@@ -154,7 +157,12 @@ var sources = concatSources(metadata);
 var transpiled = ts.transpileModule(sources, {
     compilerOptions: {
         module: ts.ModuleKind.CommonJS,
-        target: ts.ScriptTarget.ES5
-    }
+        target: ts.ScriptTarget.ES5,
+        sourceMap: true,
+        strict: true
+    },
+    fileName: bundleNameTs
 });
-fs.writeFileSync(process.argv.slice(3).toString(), transpiled.outputText);
+fs.writeFileSync(bundleNameTs, sources);
+fs.writeFileSync(bundleName, transpiled.outputText);
+fs.writeFileSync(bundleName + '.map', transpiled.sourceMapText);
