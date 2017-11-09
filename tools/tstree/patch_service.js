@@ -1,3 +1,5 @@
+const path = require('path');
+
 const replaceError = (content) => {
   if (content.includes('tstree patched')) {
     return;
@@ -14,12 +16,12 @@ const replaceError = (content) => {
 };
 
 const targets = [
-  'node_modules/typescript/lib/typescriptServices.js',
-  'node_modules/typescript/lib/tsserver.js',
-  'node_modules/typescript/lib/tsc.js',
-  'node_modules/typescript/lib/tsserverlibrary.js',
-  'node_modules/typescript/lib/typingsinstaller.js',
-  'node_modules/typescript/lib/typescript.js',
+  '../../node_modules/typescript/lib/typescriptServices.js',
+  '../../node_modules/typescript/lib/tsserver.js',
+  '../../node_modules/typescript/lib/tsc.js',
+  '../../node_modules/typescript/lib/tsserverlibrary.js',
+  '../../node_modules/typescript/lib/typingsinstaller.js',
+  '../../node_modules/typescript/lib/typescript.js',
 ];
 
 const fs = require('fs');
