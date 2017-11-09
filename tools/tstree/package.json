@@ -1,0 +1,16 @@
+{
+  "name": "@internal/tstree",
+  "scripts": {
+    "build": "tsc index.ts -m commonjs"
+  },
+  "version": "1.0.0",
+  "private": true,
+  "module": "index.js",
+  "bin": "index.js",
+  "devDependencies": {
+    "@types/glob": "^5.0.33",
+    "@types/node": "^8.0.28",
+    "glob": "^7.1.2",
+    "typescript": "~2.4"
+  }
+}

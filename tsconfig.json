@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "system",
+    "outFile": "compiled.js",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "inlineSources": true,
+    "declaration": false,
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules/**/*",
+    "bin"
+  ]
+}
