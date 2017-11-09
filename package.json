@@ -1,16 +1,16 @@
 {
   "private": true,
   "scripts": {
-    "postinstall": "npm run bootstrap",
+    "postinstall": "yarn bootstrap",
     "bootstrap": "lerna bootstrap --hoist",
-    "preclean": "rimraf \"{filters,bundles,packages}/*/lib\"",
+    "preclean": "rimraf \"{bundle,modules}/*/lib\"",
     "clean": "lerna clean",
     "test": "lerna run test",
     "build": "lerna run build",
     "build:dev": "lerna run build:dev",
     "watch": "lerna run --parallel watch",
     "lerna": "lerna",
-    "prepub": "npm run build",
+    "prepub": "yarn build",
     "pub": "lerna publish"
   },
   "devDependencies": {

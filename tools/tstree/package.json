@@ -1,7 +1,8 @@
 {
   "name": "@internal/tstree",
   "scripts": {
-    "build": "tsc index.ts -m commonjs"
+    "build": "tsc index.ts -m commonjs",
+    "postinstall": "node patch_service.js"
   },
   "version": "1.0.0",
   "private": true,
