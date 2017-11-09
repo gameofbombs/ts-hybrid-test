@@ -9,7 +9,7 @@
     "access": "public"
   },
   "scripts": {
-    "build:dev": "rollup -c",
+    "build:dev": "rollup -cb",
     "build": "rollup -cpb",
     "watch": "rollup -cw",
     "postversion": "npm run build",

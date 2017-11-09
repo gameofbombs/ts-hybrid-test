@@ -1,1 +1,1 @@
-export {default as Hello} from 'src/cool';
+export {default as Hello} from './src/cool';

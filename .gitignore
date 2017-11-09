@@ -1,21 +1,33 @@
-# Sublime Text files
+# sublime text files
 *.sublime*
 *.*~*.TMP
 
-# OS temp files
+# temp files
 .DS_Store
 Thumbs.db
 Desktop.ini
-
-# Tool temp files
 npm-debug.log
+lerna-debug.log
+
+# project files
+.project
+
+# vim swap files
 *.sw*
+
+# emacs temp files
 *~
 \#*#
-yarn.lock
 
 # project ignores
 !.gitkeep
+*__temp
 node_modules
+docs
+coverage
+lib
+
+# jetBrains IDE ignores
 .idea
-.vs_code
+yarn.lock
+package-lock.json
