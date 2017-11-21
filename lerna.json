@@ -1,8 +1,9 @@
 {
   "lerna": "2.4.0",
   "packages": [
-    "bundle/*",
-    "modules/*",
+    "bundles/*",
+    "bridges/*",
+    "plugins/*",
     "tools/*"
   ],
   "version": "1.0.0"

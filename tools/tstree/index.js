@@ -24,7 +24,7 @@ function generateClassMetadata(fileNames, options) {
     /** visit nodes finding exported classes */
     function visit(node) {
         var path = node.getSourceFile()['path'].toString();
-        if (path.includes('node_modules')) {
+        if (path.includes('node_modules') || !path.includes(sourcesDir)) {
             return;
         }
         if (node.kind === ts.SyntaxKind.ClassDeclaration) {
@@ -72,7 +72,7 @@ function generateClassMetadata(fileNames, options) {
     function getFqcnBySymbol(symbol) {
         var fqcn = [];
         var previous = symbol;
-        if (previous && previous.declarations[0].kind === ts.SyntaxKind.ImportEqualsDeclaration) {
+        if (previous && previous.declarations && previous.declarations[0].kind === ts.SyntaxKind.ImportEqualsDeclaration) {
             return getFqcnByQN(previous.declarations[0]['moduleReference']).split('.');
         }
         while (true) {
@@ -156,7 +156,7 @@ unflattenMetadata(metadata);
 var sources = concatSources(metadata);
 var transpiled = ts.transpileModule(sources, {
     compilerOptions: {
-        module: ts.ModuleKind.CommonJS,
+        module: ts.ModuleKind.None,
         target: ts.ScriptTarget.ES5,
         sourceMap: true,
         strict: true

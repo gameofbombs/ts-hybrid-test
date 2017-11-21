@@ -46,7 +46,7 @@ function generateClassMetadata(fileNames: string[], options: ts.CompilerOptions)
     {
         const path = node.getSourceFile()['path'].toString();
 
-        if (path.includes('node_modules')) {
+        if (path.includes('node_modules') || !path.includes(sourcesDir)) {
             return;
         }
 
@@ -106,7 +106,7 @@ function generateClassMetadata(fileNames: string[], options: ts.CompilerOptions)
         let fqcn = [];
         let previous = symbol;
 
-        if (previous && previous.declarations[0].kind === ts.SyntaxKind.ImportEqualsDeclaration) {
+        if (previous && previous.declarations && previous.declarations[0].kind === ts.SyntaxKind.ImportEqualsDeclaration) {
             return getFqcnByQN(previous.declarations[0]['moduleReference']).split('.');
         }
 
@@ -224,7 +224,7 @@ unflattenMetadata(metadata);
 const sources = concatSources(metadata);
 const transpiled = ts.transpileModule(sources, {
     compilerOptions: {
-        module: ts.ModuleKind.CommonJS,
+        module: ts.ModuleKind.None,
         target: ts.ScriptTarget.ES5,
         sourceMap: true,
         strict: true

@@ -1,0 +1,28 @@
+{
+  "name": "@local/heaven",
+  "version": "1.0.0",
+
+  "main": "lib/pixi-heaven.js",
+  "module": "lib/pixi-heaven.es.js",
+
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build:dev": "rollup -cpb",
+    "build": "rollup -cpb",
+    "watch": "rollup -cw",
+    "postversion": "npm run build",
+    "test": "exit 0"
+  },
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "@internal/builder": "^1.0.0",
+    "@local/pixi-projection": "~0.1.8",
+    "@local/pixi-spine": "~1.5.9",
+    "@local/pixi-projection-spine-bridge": "~1.0.0",
+    "rollup": "^0.50.0"
+  }
+}

@@ -1,6 +1,6 @@
 const path = require('path');
 const thaw = require('./thaw');
-const buble = require('rollup-plugin-buble');
+const transpile = require('rollup-plugin-buble');
 const resolve = require('rollup-plugin-node-resolve');
 const string = require('rollup-plugin-string');
 const sourcemaps = require('rollup-plugin-sourcemaps');
@@ -10,7 +10,7 @@ const minimist = require('minimist');
 const commonjs = require('rollup-plugin-commonjs');
 const builtins = require('rollup-plugin-node-builtins');
 const replace = require('rollup-plugin-replace');
-const preprocess = require('rollup-plugin-preprocess').default;
+const force = require('rollup-plugin-force-binding');
 
 const pkg = require(path.resolve('./package'));
 const input = 'export.js';
@@ -35,10 +35,7 @@ const plugins = [
     }),
     builtins(),
     commonjs({
-        namedExports: {
-            'resource-loader': ['Resource'],
-            'pixi-gl-core': ['GLFramebuffer'], // TODO: remove pixi-gl-core
-        },
+        // exclude: [ 'modules/**' ]
     }),
     string({
         include: [
@@ -49,36 +46,29 @@ const plugins = [
     replace({
         __VERSION__: pkg.version,
     }),
-    preprocess({
-        context: {
-            DEV: !prod,
-            DEVELOPMENT: !prod,
-            PROD: prod,
-            PRODUCTION: prod,
-        },
-    }),
-    buble(),
+    transpile(),
     thaw(),
 ];
 
 if (prod)
 {
-    plugins.push(uglify({
-        mangle: true,
-        compress: true,
-        output: {
-            comments(node, comment)
-            {
-                const { value, type } = comment;
-
-                return type === 'comment2' && value.indexOf(pkg.name) > -1;
-            },
-        },
-    }, minify));
+    // plugins.push(uglify({
+    //     mangle: true,
+    //     compress: true,
+    //     output: {
+    //         comments(node, comment)
+    //         {
+    //             const { value, type } = comment;
+    //
+    //             return type === 'comment2' && value.indexOf(` * ${pkg.name} `) > -1;
+    //         },
+    //     },
+    // }, minify));
 }
 
 const compiled = (new Date()).toUTCString().replace(/GMT/g, 'UTC');
 const external = Object.keys(pkg.dependencies || []);
+
 const sourcemap = true;
 const name = 'PIXI';
 const banner = `/*!
@@ -88,6 +78,9 @@ const banner = `/*!
  * ${pkg.name} is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */\n`;
+
+console.log(bundle ? 'umd' : 'cjs');
+console.log(external);
 
 exports.default = [
     {
@@ -101,6 +94,10 @@ exports.default = [
         external,
         sourcemap,
         plugins,
+        globals: {
+            'pixi.js': 'PIXI'
+        },
+        extend: true
     },
     {
         banner,

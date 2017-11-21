@@ -1,0 +1,32 @@
+{
+  "name": "@local/pixi-projection-spine-bridge",
+  "version": "1.0.0",
+
+  "main": "lib/pixi-projection-spine-bridge.es.js",
+  "module": "lib/pixi-projection-spine-bridge.es.js",
+
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build:dev": "tstree src export.js && rollup -cp",
+    "build": "tstree src export.js && rollup -cp",
+    "watch": "rollup -cw",
+    "postversion": "npm run build",
+    "test": "exit 0"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@local/pixi-projection": "~0.1.8",
+    "@local/pixi-spine": "~1.5.9",
+    "@types/pixi.js": "~4.6.0",
+    "object-assign-deep": "^0.3.1"
+  },
+  "devDependencies": {
+    "@internal/builder": "^1.0.0",
+    "@internal/tstree": "^1.0.0",
+    "rollup": "^0.50.0"
+  }
+}
